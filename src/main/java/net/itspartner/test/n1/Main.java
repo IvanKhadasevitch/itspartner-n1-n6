@@ -45,24 +45,26 @@ public class Main {
             return null;
         }
 
-        LinkedList<Integer> nodeList = new LinkedList<>();
         Node<Integer> curNode = head;
+        Node<Integer> reverseHead = null;
+        Node<Integer> previousNode = null;
+        Node<Integer> nextNode = null;
         while (curNode != null) {
-            nodeList.addFirst(curNode.value);
-            curNode = curNode.getNextNode();
+            nextNode = curNode.getNextNode();
+            if (reverseHead == null) {
+                curNode.setNextNode(null);
+            } else {
+                curNode.setNextNode(previousNode);
+            }
+            reverseHead = curNode;
+
+            if (nextNode != null) {
+                previousNode = curNode;
+            }
+
+            curNode = nextNode;
         }
 
-        Node<Integer> linkedListTail = null;
-        for (Integer nodeValue : nodeList) {
-           if (linkedListTail == null) {
-               linkedListTail = new Node<>(nodeValue);
-               curNode = linkedListTail;
-           } else {
-               curNode.setNextNode(new Node<> (nodeValue));
-               curNode = curNode.getNextNode();
-           }
-        }
-
-        return linkedListTail;
+        return reverseHead;
     }
 }
